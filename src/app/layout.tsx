@@ -27,6 +27,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        <meta name="theme-color" content="#141414" />
         <meta
           name="apple-mobile-web-app-status-bar-style"
           content="black-translucent"
