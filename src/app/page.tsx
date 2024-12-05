@@ -76,7 +76,7 @@ END:VCALENDAR
     // Renderiza o restante do conteúdo quando o loading for falso
     <>
       {loading && (
-        <div className="flex items-center justify-center h-screen bg-gradient-to-b from-green-900 to-gray-900 absolute w-full">
+        <div className="flex items-center justify-center h-screen bg-gradient-to-b from-[#008644] to-[#1E1E1E] absolute w-full">
           <Lottie animationData={save} loop={true} />
         </div>
       )}
@@ -101,7 +101,7 @@ END:VCALENDAR
                 alt="logo da maior greentech da historia CUBEVIS"
                 className="w-auto h-auto max-w-[250px] max-h-[100px] m-auto"
               />
-              <div className="flex justify-center">
+              <div className="flex justify-center hidden">
                 <Image
                   src="/save.svg"
                   width={350}
@@ -127,8 +127,21 @@ END:VCALENDAR
             GreenTech, transformando desafios em oportunidades e criando impacto
             real no mercado.
           </p>
-
-          <div className="p-2 flex flex-row gap-4 justify-center">
+          <div className="flex flex-row gap-2 w-full max-w-xs mx-auto mt-2">
+            <button
+              onClick={handleGenerateICS}
+              className="px-4 py-2 text-white font-bold bg-gradient-to-r from-green-400 to-green-600 rounded-lg shadow-lg hover:shadow-green-400 hover:scale-105 transition-transform text-sm"
+            >
+              Baixar Convite (.ics)
+            </button>
+            <button
+              onClick={handleGoogleCalendarLink}
+              className="px-4 py-2 text-white font-bold bg-gradient-to-r to-green-400 from-green-600 rounded-lg shadow-lg hover:shadow-green-400 hover:scale-105 transition-transform text-sm"
+            >
+              Google Calendar
+            </button>
+          </div>
+          <div className="p-2 flex flex-row gap-4 justify-center mt-2">
             <div className="flex flex-col items-center">
               <span className={`font-thin ${ubuntu.className} text-sm`}>
                 TERÇA-FEIRA
@@ -143,23 +156,10 @@ END:VCALENDAR
             </div>
           </div>
 
-          <div className="flex flex-col gap-2 w-full max-w-xs mx-auto mt-10">
-            <button
-              onClick={handleGenerateICS}
-              className="px-4 py-2 text-white font-bold bg-gradient-to-r from-green-400 to-green-600 rounded-lg shadow-lg hover:shadow-green-400 hover:scale-105 transition-transform text-sm"
-            >
-              Baixar Convite (.ics)
-            </button>
-            <button
-              onClick={handleGoogleCalendarLink}
-              className="px-4 py-2 text-white font-bold bg-gradient-to-r to-green-400 from-green-600 rounded-lg shadow-lg hover:shadow-green-400 hover:scale-105 transition-transform text-sm"
-            >
-              Google Calendar
-            </button>
-          </div>
-
-          <p className="text-center mt-4">
-            Local: <strong>{eventLocation}</strong>
+          <p
+            className={`text-center mt-4 ${ubuntu.className} fixed bottom-0 -ml-5 p-4`}
+          >
+            <strong>Local: </strong> <span>{eventLocation}</span>
           </p>
         </div>
       </div>
