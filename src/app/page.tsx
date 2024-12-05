@@ -1,101 +1,171 @@
+"use client";
+import { saveAs } from "file-saver";
 import Image from "next/image";
+import { Ubuntu } from "next/font/google";
+import dynamic from "next/dynamic";
+import save from "../../public/animations/save.json";
+import { useEffect, useState } from "react";
 
-export default function Home() {
+// Importa o componente Lottie dinamicamente sem suporte a SSR
+const Lottie = dynamic(() => import("lottie-react"), { ssr: false });
+const ubuntu = Ubuntu({
+  subsets: ["latin"],
+  weight: ["300", "400", "700"], // Inclua os pesos que você usará
+});
+function EventPage() {
+  const [loading, setLoading] = useState(true);
+  const eventName = "CUBEVIS - SAVE THE DATE";
+  const eventDate = new Date("2024-12-17T13:00:00");
+  const eventEndDate = new Date("2024-12-17T18:00:00");
+  const eventLocation =
+    "Av. Engenheiro Luís Carlos Berrini, 105, Cidade Monções, São Paulo - SP";
+  const eventDescription =
+    "Venha participar de um evento exclusivo e conheça a CUBEVIS, uma incubadora que está moldando o futuro da indústria. Com foco em tecnologia de ponta, impulsionamos ideias promissoras em soluções GreenTech, transformando desafios em oportunidades e criando impacto real no mercado.";
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 5000);
+
+    return () => clearTimeout(timer); // Limpa o timeout ao desmontar o componente
+  }, []);
+  // Gera o arquivo .ics
+  const handleGenerateICS = () => {
+    const eventDetails = `
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Cubevis//EN
+CALSCALE:GREGORIAN
+BEGIN:VEVENT
+UID:${new Date().getTime()}@cubevis.com
+DTSTAMP:${new Date().toISOString().replace(/[-:]/g, "").split(".")[0]}Z
+DTSTART;TZID=America/Sao_Paulo:${
+      eventDate.toISOString().replace(/[-:]/g, "").split(".")[0]
+    }
+DTEND;TZID=America/Sao_Paulo:${
+      eventEndDate.toISOString().replace(/[-:]/g, "").split(".")[0]
+    }
+SUMMARY:${eventName}
+DESCRIPTION:${eventDescription}
+LOCATION:${eventLocation}
+STATUS:CONFIRMED
+END:VEVENT
+END:VCALENDAR
+    `.trim();
+
+    const blob = new Blob([eventDetails], {
+      type: "text/calendar;charset=utf-8",
+    });
+    saveAs(blob, `${eventName.replace(/ /g, "_")}.ics`);
+  };
+
+  // Gera o link para o Google Calendar
+  const handleGoogleCalendarLink = () => {
+    const googleCalendarUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(
+      eventName
+    )}&dates=${eventDate.toISOString().replace(/[-:]/g, "").split(".")[0]}/${
+      eventEndDate.toISOString().replace(/[-:]/g, "").split(".")[0]
+    }&details=${encodeURIComponent(
+      eventDescription
+    )}&location=${encodeURIComponent(eventLocation)}&sf=true&output=xml`;
+
+    window.open(googleCalendarUrl, "_blank");
+  };
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+    <>
+      {loading ? (
+        // Renderiza o Lottie enquanto está carregando
+        <div className="flex items-center justify-center h-screen bg-gradient-to-b from-green-900 to-gray-900">
+          <Lottie animationData={save} loop={true} />
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+      ) : (
+        // Renderiza o restante do conteúdo quando o loading for falso
+        <div
+          style={{
+            padding: "2rem",
+            fontFamily: "Arial, sans-serif",
+            backgroundImage: "url('/background.svg')",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            backgroundRepeat: "no-repeat",
+          }}
+          className="h-screen w-full bg-black"
         >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+          <div className="flex flex-col text-white">
+            <div className="flex items-center justify-center pb-4">
+              <div className="flex flex-col gap-8 w-full">
+                <Image
+                  src="/logo.svg"
+                  width={250}
+                  height={100}
+                  alt="logo da maior greentech da historia CUBEVIS"
+                  className="w-auto h-auto max-w-[250px] max-h-[100px] m-auto"
+                />
+                <div className="flex justify-center">
+                  <Image
+                    src="/save.svg"
+                    width={350}
+                    height={100}
+                    alt="Imagem adicional"
+                    className="w-auto h-auto max-w-[350px] max-h-[100px]"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <p className="text-center">
+              <strong className="uppercase">
+                Temos um Convite especial para você
+              </strong>
+            </p>
+            <p
+              className={`py-4 text-md font-thin text-center ${ubuntu.className}`}
+            >
+              Venha participar de um evento exclusivo e conheça a <b>CUBEVIS</b>
+              , uma incubadora que está moldando o futuro da indústria. Com foco
+              em tecnologia de ponta, impulsionamos ideias promissoras em
+              soluções GreenTech, transformando desafios em oportunidades e
+              criando impacto real no mercado.
+            </p>
+
+            <div className="p-2 flex flex-row gap-4 justify-center">
+              <div className="flex flex-col items-center">
+                <span className={`font-thin ${ubuntu.className} text-sm`}>
+                  TERÇA-FEIRA
+                </span>
+                <b>17 DEZ</b>
+              </div>
+              <div className="flex flex-col items-center border-l-2 pl-4">
+                <span className={`font-thin ${ubuntu.className} text-sm`}>
+                  A PARTIR DAS
+                </span>
+                <b>16 HS</b>
+              </div>
+            </div>
+
+            <div className="flex flex-col gap-2 w-full max-w-xs mx-auto mt-10">
+              <button
+                onClick={handleGenerateICS}
+                className="px-4 py-2 text-white font-bold bg-gradient-to-r from-green-400 to-green-600 rounded-lg shadow-lg hover:shadow-green-400 hover:scale-105 transition-transform text-sm"
+              >
+                Baixar Convite (.ics)
+              </button>
+              <button
+                onClick={handleGoogleCalendarLink}
+                className="px-4 py-2 text-white font-bold bg-gradient-to-r to-green-400 from-green-600 rounded-lg shadow-lg hover:shadow-green-400 hover:scale-105 transition-transform text-sm"
+              >
+                Google Calendar
+              </button>
+            </div>
+
+            <p className="text-center mt-4">
+              Local: <strong>{eventLocation}</strong>
+            </p>
+          </div>
+        </div>
+      )}
+    </>
   );
 }
+
+export default EventPage;
