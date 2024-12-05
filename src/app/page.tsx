@@ -76,7 +76,7 @@ END:VCALENDAR
     // Renderiza o restante do conteúdo quando o loading for falso
     <>
       {loading && (
-        <div className="flex items-center justify-center h-screen bg-gradient-to-b from-green-900 to-gray-900">
+        <div className="flex items-center justify-center h-screen bg-gradient-to-b from-green-900 to-gray-900 absolute w-full">
           <Lottie animationData={save} loop={true} />
         </div>
       )}
