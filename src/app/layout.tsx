@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   description: "GrenTech, sustentabilidade e gestão!",
 };
 export const viewport: Viewport = {
-  themeColor: "#141414",
+  themeColor: "#242b26",
 };
 
 export default function RootLayout({
@@ -29,11 +29,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <meta name="theme-color" content="#141414" />
-        <meta
-          name="apple-mobile-web-app-status-bar-style"
-          content="black-translucent"
-        />
+        <meta name="theme-color" content="#242b26" />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
