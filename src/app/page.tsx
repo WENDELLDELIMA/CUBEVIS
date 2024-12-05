@@ -73,98 +73,96 @@ END:VCALENDAR
   };
 
   return (
+    // Renderiza o restante do conteúdo quando o loading for falso
     <>
-      {loading ? (
-        // Renderiza o Lottie enquanto está carregando
+      {loading && (
         <div className="flex items-center justify-center h-screen bg-gradient-to-b from-green-900 to-gray-900">
           <Lottie animationData={save} loop={true} />
         </div>
-      ) : (
-        // Renderiza o restante do conteúdo quando o loading for falso
-        <div
-          style={{
-            padding: "2rem",
-            fontFamily: "Arial, sans-serif",
-            backgroundImage: "url('/background.svg')",
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            backgroundRepeat: "no-repeat",
-          }}
-          className="h-screen w-full bg-black"
-        >
-          <div className="flex flex-col text-white">
-            <div className="flex items-center justify-center pb-4">
-              <div className="flex flex-col gap-8 w-full">
-                <Image
-                  src="/logo.svg"
-                  width={250}
-                  height={100}
-                  alt="logo da maior greentech da historia CUBEVIS"
-                  className="w-auto h-auto max-w-[250px] max-h-[100px] m-auto"
-                />
-                <div className="flex justify-center">
-                  <Image
-                    src="/save.svg"
-                    width={350}
-                    height={100}
-                    alt="Imagem adicional"
-                    className="w-auto h-auto max-w-[350px] max-h-[100px]"
-                  />
-                </div>
-              </div>
-            </div>
-
-            <p className="text-center">
-              <strong className="uppercase">
-                Temos um Convite especial para você
-              </strong>
-            </p>
-            <p
-              className={`py-4 text-md font-thin text-center ${ubuntu.className}`}
-            >
-              Venha participar de um evento exclusivo e conheça a <b>CUBEVIS</b>
-              , uma incubadora que está moldando o futuro da indústria. Com foco
-              em tecnologia de ponta, impulsionamos ideias promissoras em
-              soluções GreenTech, transformando desafios em oportunidades e
-              criando impacto real no mercado.
-            </p>
-
-            <div className="p-2 flex flex-row gap-4 justify-center">
-              <div className="flex flex-col items-center">
-                <span className={`font-thin ${ubuntu.className} text-sm`}>
-                  TERÇA-FEIRA
-                </span>
-                <b>17 DEZ</b>
-              </div>
-              <div className="flex flex-col items-center border-l-2 pl-4">
-                <span className={`font-thin ${ubuntu.className} text-sm`}>
-                  A PARTIR DAS
-                </span>
-                <b>16 HS</b>
-              </div>
-            </div>
-
-            <div className="flex flex-col gap-2 w-full max-w-xs mx-auto mt-10">
-              <button
-                onClick={handleGenerateICS}
-                className="px-4 py-2 text-white font-bold bg-gradient-to-r from-green-400 to-green-600 rounded-lg shadow-lg hover:shadow-green-400 hover:scale-105 transition-transform text-sm"
-              >
-                Baixar Convite (.ics)
-              </button>
-              <button
-                onClick={handleGoogleCalendarLink}
-                className="px-4 py-2 text-white font-bold bg-gradient-to-r to-green-400 from-green-600 rounded-lg shadow-lg hover:shadow-green-400 hover:scale-105 transition-transform text-sm"
-              >
-                Google Calendar
-              </button>
-            </div>
-
-            <p className="text-center mt-4">
-              Local: <strong>{eventLocation}</strong>
-            </p>
-          </div>
-        </div>
       )}
+      <div
+        style={{
+          padding: "2rem",
+          fontFamily: "Arial, sans-serif",
+          backgroundImage: "url('/background.svg')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+        }}
+        className="h-screen w-full bg-black"
+      >
+        <div className="flex flex-col text-white">
+          <div className="flex items-center justify-center pb-4">
+            <div className="flex flex-col gap-8 w-full">
+              <Image
+                src="/logo.svg"
+                width={250}
+                height={100}
+                alt="logo da maior greentech da historia CUBEVIS"
+                className="w-auto h-auto max-w-[250px] max-h-[100px] m-auto"
+              />
+              <div className="flex justify-center">
+                <Image
+                  src="/save.svg"
+                  width={350}
+                  height={100}
+                  alt="Imagem adicional"
+                  className="w-auto h-auto max-w-[350px] max-h-[100px]"
+                />
+              </div>
+            </div>
+          </div>
+
+          <p className="text-center">
+            <strong className="uppercase">
+              Temos um Convite especial para você
+            </strong>
+          </p>
+          <p
+            className={`py-4 text-md font-thin text-center ${ubuntu.className}`}
+          >
+            Venha participar de um evento exclusivo e conheça a <b>CUBEVIS</b>,
+            uma incubadora que está moldando o futuro da indústria. Com foco em
+            tecnologia de ponta, impulsionamos ideias promissoras em soluções
+            GreenTech, transformando desafios em oportunidades e criando impacto
+            real no mercado.
+          </p>
+
+          <div className="p-2 flex flex-row gap-4 justify-center">
+            <div className="flex flex-col items-center">
+              <span className={`font-thin ${ubuntu.className} text-sm`}>
+                TERÇA-FEIRA
+              </span>
+              <b>17 DEZ</b>
+            </div>
+            <div className="flex flex-col items-center border-l-2 pl-4">
+              <span className={`font-thin ${ubuntu.className} text-sm`}>
+                A PARTIR DAS
+              </span>
+              <b>16 HS</b>
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-2 w-full max-w-xs mx-auto mt-10">
+            <button
+              onClick={handleGenerateICS}
+              className="px-4 py-2 text-white font-bold bg-gradient-to-r from-green-400 to-green-600 rounded-lg shadow-lg hover:shadow-green-400 hover:scale-105 transition-transform text-sm"
+            >
+              Baixar Convite (.ics)
+            </button>
+            <button
+              onClick={handleGoogleCalendarLink}
+              className="px-4 py-2 text-white font-bold bg-gradient-to-r to-green-400 from-green-600 rounded-lg shadow-lg hover:shadow-green-400 hover:scale-105 transition-transform text-sm"
+            >
+              Google Calendar
+            </button>
+          </div>
+
+          <p className="text-center mt-4">
+            Local: <strong>{eventLocation}</strong>
+          </p>
+        </div>
+      </div>
     </>
   );
 }
