@@ -1,5 +1,5 @@
 "use client";
-
+import { saveAs } from "file-saver";
 import Image from "next/image";
 import { Ubuntu } from "next/font/google";
 import dynamic from "next/dynamic";
@@ -55,6 +55,7 @@ END:VCALENDAR
     const blob = new Blob([eventDetails], {
       type: "text/calendar;charset=utf-8",
     });
+
     saveAs(blob, `${eventName.replace(/ /g, "_")}.ics`);
   };
 
