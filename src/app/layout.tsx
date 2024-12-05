@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   description: "GrenTech, sustentabilidade e gestão!",
 };
 export const viewport: Viewport = {
-  themeColor: "#81d37b",
+  themeColor: "#487b4b",
 };
 
 export default function RootLayout({
@@ -29,7 +29,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <meta name="theme-color" content="#81d37b" />
+        <meta name="theme-color" content="#487b4b" />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
