@@ -140,7 +140,7 @@ END:VCALENDAR
               Google Calendar
             </button>
           </div>
-          <div className="p-2 flex flex-row gap-4 justify-center mt-2">
+          <div className="p-2 flex flex-row gap-4 justify-center mt-8">
             <div className="flex flex-col items-center">
               <span className={`font-thin ${ubuntu.className} text-sm`}>
                 TERÇA-FEIRA
