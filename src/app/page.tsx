@@ -124,8 +124,7 @@ END:VCALENDAR
             Venha participar de um evento exclusivo e conheça a <b>CUBEVIS</b>,
             uma incubadora que está moldando o futuro da indústria. Com foco em
             tecnologia de ponta, impulsionamos ideias promissoras em soluções
-            GreenTech, transformando desafios em oportunidades e criando impacto
-            real no mercado.
+            GreenTech, transformando desafios em oportunidades.
           </p>
           <div className="flex flex-row gap-2 w-full max-w-xs mx-auto mt-2">
             <button
