@@ -20,7 +20,7 @@ function EventPage() {
   const eventLocation =
     "Av. Engenheiro Luís Carlos Berrini, 105, Cidade Monções, São Paulo - SP";
   const eventDescription =
-    "Venha participar de um evento exclusivo e conheça a CUBEVIS, uma incubadora que está moldando o futuro da indústria. Com foco em tecnologia de ponta, impulsionamos ideias promissoras em soluções GreenTech, transformando desafios em oportunidades e criando impacto real no mercado.";
+    "Venha participar de um evento exclusivo e conheça a CUBEVIS, uma incubadora que está moldando o futuro da indústria. Com foco em tecnologia de ponta, impulsionamos ideias promissoras em soluções GreenTech, transformando desafios em oportunidades.";
   useEffect(() => {
     const timer = setTimeout(() => {
       setLoading(false);
