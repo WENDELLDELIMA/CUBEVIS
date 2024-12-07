@@ -15,7 +15,7 @@ const geistMono = localFont({
 
 export const metadata: Metadata = {
   title: "CUBEVIS",
-  description: "GrenTech, sustentabilidade e gestão!",
+  description: "GrenTech, Sustentabilidade e gestão!",
 };
 export const viewport: Viewport = {
   themeColor: "#008644",
