@@ -3,15 +3,19 @@ import { saveAs } from "file-saver";
 import Image from "next/image";
 import { Ubuntu } from "next/font/google";
 import dynamic from "next/dynamic";
-import save from "../../public/animations/save.json";
+import save from "../../../../public/animations/save.json";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { PageProps } from "../../../../.next/types/app/event/[id]/page";
 
 // Importa o componente Lottie dinamicamente sem suporte a SSR
 const Lottie = dynamic(() => import("lottie-react"), { ssr: false });
+
 const ubuntu = Ubuntu({
   subsets: ["latin"],
-  weight: ["300", "400", "700"], // Inclua os pesos que você usará
+  weight: ["300", "400", "700"],
 });
+
 const convidados = [
   {
     id: 1,
@@ -328,9 +332,16 @@ const convidados = [
     contato: "(11)97680-8867",
     email: null,
   },
+  {
+    id: 46,
+    nome: "Gilson Luckmann",
+    empresa: "CUBEVIS",
+    contato: "+551194521-3801",
+    email: null,
+  },
 ];
 
-function EventPage() {
+function EventPage({ params }: PageProps) {
   const [loading, setLoading] = useState(true);
   const eventName = "CUBEVIS - SAVE THE DATE";
   const eventDate = new Date("2024-12-17T13:00:00");
@@ -339,54 +350,38 @@ function EventPage() {
     "Av. Engenheiro Luís Carlos Berrini, 105, Cidade Monções, São Paulo - SP";
   const eventDescription =
     "Venha participar de um evento exclusivo e conheça a CUBEVIS, uma incubadora que está moldando o futuro da indústria. Com foco em tecnologia de ponta, impulsionamos ideias promissoras em soluções GreenTech, transformando desafios em oportunidades.";
+
+  // Hook do Next.js para acessar parâmetros da URL
+  const router = useRouter();
+  const { id } = params; // id vem da URL, por exemplo /event/1
+
   useEffect(() => {
     const timer = setTimeout(() => {
       setLoading(false);
     }, 5000);
-
-    return () => clearTimeout(timer); // Limpa o timeout ao desmontar o componente
+    return () => clearTimeout(timer);
   }, []);
-  // Gera o arquivo .ics
-  const handleGenerateICS = () => {
-    const eventDetails = `
-BEGIN:VCALENDAR
-VERSION:2.0
-PRODID:-//Cubevis//EN
-CALSCALE:GREGORIAN
-BEGIN:VEVENT
-UID:${new Date().getTime()}@cubevis.com
-DTSTAMP:${new Date().toISOString().replace(/[-:]/g, "").split(".")[0]}Z
-DTSTART;TZID=America/Sao_Paulo:${
-      eventDate.toISOString().replace(/[-:]/g, "").split(".")[0]
-    }
-DTEND;TZID=America/Sao_Paulo:${
-      eventEndDate.toISOString().replace(/[-:]/g, "").split(".")[0]
-    }
-SUMMARY:${eventName}
-DESCRIPTION:${eventDescription}
-LOCATION:${eventLocation}
-STATUS:CONFIRMED
-END:VEVENT
-END:VCALENDAR
-    `.trim();
 
-    const blob = new Blob([eventDetails], {
-      type: "text/calendar;charset=utf-8",
-    });
-
-    saveAs(blob, `${eventName.replace(/ /g, "_")}.ics`);
-  };
-
-  // Gera o link para o Google Calendar
+  // Função para gerar o link do Google Calendar personalizada com o convidado obtido pelo ID da URL
   const handleGoogleCalendarLink = () => {
-    // Mensagem a ser enviada no WhatsApp
-    const wppMessage =
-      "CONFIRMANDO PARTICIPAÇÃO NO EVENTO DE INAUGURAÇÃO DA CUBEVIS";
-    // Número de telefone no formato internacional sem o "+"
-    // Ex: Para o Brasil, DDI 55, DDD 11, número 912345678 => "5511912345678"
-    const wppNumber = "5511986663003";
+    // Converte o id para número, já que router.query retorna string
+    const convidadoId = Number(id);
+    const convidado = convidados.find((c) => c.id === convidadoId);
 
-    // Monta a URL para abrir o WhatsApp com a mensagem
+    let wppMessage =
+      "CONFIRMANDO PARTICIPAÇÃO NO EVENTO DE INAUGURAÇÃO DA CUBEVIS";
+
+    if (convidado) {
+      wppMessage = `Olá, ${
+        convidado.nome
+      }!\nPARTICIPAÇÃO NO EVENTO DE INAUGURAÇÃO DA CUBEVIS.\n\nEmpresa: ${
+        convidado.empresa || "Não informada"
+      }\n${
+        convidado.email ? "E-mail: " + convidado.email : ""
+      }\n\nMensagem de Confirmação`;
+    }
+
+    const wppNumber = "5511986663003";
     const wppUrl = `https://api.whatsapp.com/send?phone=${wppNumber}&text=${encodeURIComponent(
       wppMessage
     )}`;
@@ -394,13 +389,11 @@ END:VCALENDAR
     // Abre o WhatsApp em uma nova aba
     window.open(wppUrl, "_blank");
 
-    // Depois de abrir o WhatsApp, pode-se perguntar ao usuário se ele já enviou a mensagem
     const userConfirmed = confirm(
       "Você já confirmou a participação no evento via WhatsApp?"
     );
 
     if (userConfirmed) {
-      // Agora abre o Google Calendar
       const googleCalendarUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(
         eventName
       )}&dates=${eventDate.toISOString().replace(/[-:]/g, "").split(".")[0]}/${
@@ -414,7 +407,6 @@ END:VCALENDAR
   };
 
   return (
-    // Renderiza o restante do conteúdo quando o loading for falso
     <>
       {loading && (
         <div className="flex items-center justify-center h-screen bg-gradient-to-b from-[#008644] to-[#1E1E1E] absolute w-full z-50">
@@ -442,15 +434,6 @@ END:VCALENDAR
                 alt="logo da maior greentech da historia CUBEVIS"
                 className="w-auto h-auto max-w-[250px] max-h-[100px] m-auto"
               />
-              <div className="flex justify-center hidden">
-                <Image
-                  src="/save.svg"
-                  width={350}
-                  height={100}
-                  alt="Imagem adicional"
-                  className="w-auto h-auto max-w-[350px] max-h-[100px]"
-                />
-              </div>
             </div>
           </div>
 
@@ -490,6 +473,7 @@ END:VCALENDAR
           </p>
         </div>
         <div className="flex flex-row gap-0 w-full max-w-xs mx-auto mt-8 m-auto justify-center">
+          {/* Botão que chama a função handleGoogleCalendarLink para o convidado cujo id está na URL */}
           <button
             onClick={handleGoogleCalendarLink}
             className="px-4 py-2 text-white font-bold bg-gradient-to-r to-green-400 from-green-600 rounded-lg shadow-lg hover:shadow-green-400 hover:scale-105 transition-transform text-sm w-full h-[3rem]"
