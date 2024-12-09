@@ -626,7 +626,7 @@ export default function GuestsPage() {
       });
 
       window.open(
-        `https://api.whatsapp.com/send?phone=${convidado.contato.replace(
+        `whatsapp://send?phone=${convidado.contato.replace(
           /\D/g,
           ""
         )}&text=${encodeURIComponent(wppMessage)}`,
