@@ -63,7 +63,7 @@ END:VCALENDAR
   const handleGoogleCalendarLink = () => {
     // Mensagem a ser enviada no WhatsApp
     const wppMessage =
-      "CONFIRMANDO PARTICIPACAO NO EVENTO DE INAUGURACAO CUBEVIS, NOME: ";
+      "CONFIRMANDO PARTICIPACAO NO EVENTO DE INAUGURACAO CUBEVIS";
     // Número de telefone no formato internacional sem o "+"
     // Ex: Para o Brasil, DDI 55, DDD 11, número 912345678 => "5511912345678"
     const wppNumber = "5511986663003";
