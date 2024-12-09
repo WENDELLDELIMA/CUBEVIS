@@ -338,7 +338,7 @@ const convidados = [
   },
   {
     id: 47,
-    nome: "RAFAEL BORNHAUSEN",
+    nome: "RAFAEL",
     empresa: null,
     contato: "48988063555",
     email: null,
@@ -352,14 +352,14 @@ const convidados = [
   },
   {
     id: 49,
-    nome: "GERALDO KARAM",
+    nome: "GERALDO",
     empresa: null,
     contato: "47992272113",
     email: null,
   },
   {
     id: 50,
-    nome: "THIAGO KARAM",
+    nome: "THIAGO",
     empresa: null,
     contato: "47992834060",
     email: null,
@@ -387,21 +387,21 @@ const convidados = [
   },
   {
     id: 54,
-    nome: "DANIEL ZAUDE",
+    nome: "DANIEL",
     empresa: null,
     contato: "11964771985",
     email: null,
   },
   {
     id: 55,
-    nome: "FABIO VASAMI",
+    nome: "FABIO",
     empresa: null,
     contato: "11991162491",
     email: null,
   },
   {
     id: 56,
-    nome: "SANDRO VASAMI",
+    nome: "SANDRO",
     empresa: null,
     contato: "11991156617",
     email: null,
@@ -415,7 +415,7 @@ const convidados = [
   },
   {
     id: 58,
-    nome: "THIAGO ZAUDE",
+    nome: "THIAGO",
     empresa: null,
     contato: "11999580632",
     email: null,
@@ -443,21 +443,21 @@ const convidados = [
   },
   {
     id: 62,
-    nome: "SERGIO SAFRA",
+    nome: "SERGIO",
     empresa: null,
     contato: "11984291742",
     email: null,
   },
   {
     id: 63,
-    nome: "VAGNER SAFRA",
+    nome: "VAGNER",
     empresa: null,
     contato: "11989947169",
     email: null,
   },
   {
     id: 64,
-    nome: "EMERSON GOMES",
+    nome: "EMERSON",
     empresa: null,
     contato: "41998550143",
     email: null,
@@ -471,7 +471,7 @@ const convidados = [
   },
   {
     id: 66,
-    nome: "KULIE SCHULTZ",
+    nome: "KULIE",
     empresa: null,
     contato: "15981645877",
     email: null,
@@ -485,7 +485,7 @@ const convidados = [
   },
   {
     id: 68,
-    nome: "ANDERSON BERNAL",
+    nome: "ANDERSON",
     empresa: null,
     contato: "11986522018",
     email: null,
@@ -520,56 +520,56 @@ const convidados = [
   },
   {
     id: 73,
-    nome: "OSEIEL ADAMI",
+    nome: "OSEIEL",
     empresa: null,
     contato: "49999910746",
     email: null,
   },
   {
     id: 74,
-    nome: "RINALDO APARECIDA",
+    nome: "RINALDO",
     empresa: null,
     contato: "11947797253",
     email: null,
   },
   {
     id: 75,
-    nome: "DR FLAVIO RNV",
+    nome: "FLAVIO",
     empresa: null,
     contato: "11983355350",
     email: null,
   },
   {
     id: 76,
-    nome: "DR MARCIO RNV",
+    nome: "MARCIO",
     empresa: null,
     contato: "11996466894",
     email: null,
   },
   {
     id: 77,
-    nome: "DR ANTONIO RNV",
+    nome: "ANTONIO",
     empresa: null,
     contato: "11983705653",
     email: null,
   },
   {
     id: 78,
-    nome: "LEANDRO APARECIDA",
+    nome: "LEANDRO",
     empresa: null,
     contato: "11985223339",
     email: null,
   },
   {
     id: 79,
-    nome: "SERGIO RIBAS IRANI",
+    nome: "SERGIO RIBAS",
     empresa: null,
     contato: "11996588311",
     email: null,
   },
 ];
 export default function GuestsPage() {
-  const [statusEnviados, setStatusEnviados] = useState([]);
+  const [statusEnviados, setStatusEnviados]: any = useState([]);
   const [carregando, setCarregando] = useState(true);
   const [filtro, setFiltro] = useState("todos");
   const [busca, setBusca] = useState("");
@@ -585,7 +585,7 @@ export default function GuestsPage() {
         dataConfirmacao: doc.data().dataConfirmacao || null,
         docId: doc.id,
       }));
-      setStatusEnviados(enviadosData);
+      setStatusEnviados(enviadosData as any);
     } catch (error) {
       console.error("Erro ao buscar status no Firebase:", error);
     } finally {
@@ -597,7 +597,7 @@ export default function GuestsPage() {
     buscarStatusAtualizado();
   }, []);
 
-  const copiarLink = (id) => {
+  const copiarLink = (id: any) => {
     const linkEvento = `https://save.cubevis.com.br/event/${btoa(id)}`;
     navigator.clipboard
       .writeText(linkEvento)
@@ -605,7 +605,7 @@ export default function GuestsPage() {
       .catch((error) => console.error("Erro ao copiar o link:", error));
   };
 
-  const enviarLinkWpp = async (convidado) => {
+  const enviarLinkWpp = async (convidado: any) => {
     try {
       const linkEvento = `https://save.cubevis.com.br/event/${btoa(
         convidado.id
@@ -639,7 +639,7 @@ export default function GuestsPage() {
     }
   };
 
-  const marcarConfirmacao = async (docId) => {
+  const marcarConfirmacao = async (docId: any) => {
     try {
       const docRef = doc(db, "enviados", docId);
       await updateDoc(docRef, {
@@ -659,7 +659,7 @@ export default function GuestsPage() {
 
   // Aplica os filtros e a busca por nome
   const convidadosFiltrados = convidados.filter((convidado) => {
-    const status = statusEnviados.find((e) => e.id === convidado.id);
+    const status = statusEnviados.find((e: any) => e.id === convidado.id);
 
     // Filtra por tipo
     if (filtro === "nao-enviados" && status?.enviado) return false;
@@ -740,7 +740,7 @@ export default function GuestsPage() {
       {/* Lista de convidados */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {convidadosFiltrados.map((convidado) => {
-          const status = statusEnviados.find((e) => e.id === convidado.id);
+          const status = statusEnviados.find((e: any) => e.id === convidado.id);
 
           const cardBorderClass = status?.confirmado
             ? status?.enviado
