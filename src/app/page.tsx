@@ -61,15 +61,38 @@ END:VCALENDAR
 
   // Gera o link para o Google Calendar
   const handleGoogleCalendarLink = () => {
-    const googleCalendarUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(
-      eventName
-    )}&dates=${eventDate.toISOString().replace(/[-:]/g, "").split(".")[0]}/${
-      eventEndDate.toISOString().replace(/[-:]/g, "").split(".")[0]
-    }&details=${encodeURIComponent(
-      eventDescription
-    )}&location=${encodeURIComponent(eventLocation)}&sf=true&output=xml`;
+    // Mensagem a ser enviada no WhatsApp
+    const wppMessage =
+      "TEXTO, CONFIRMANDO PARTICIPACAO NO EVENTO DE INAUGURACAO CUBEVIS";
+    // Número de telefone no formato internacional sem o "+"
+    // Ex: Para o Brasil, DDI 55, DDD 11, número 912345678 => "5511912345678"
+    const wppNumber = "5511948390735";
 
-    window.open(googleCalendarUrl, "_blank");
+    // Monta a URL para abrir o WhatsApp com a mensagem
+    const wppUrl = `https://api.whatsapp.com/send?phone=${wppNumber}&text=${encodeURIComponent(
+      wppMessage
+    )}`;
+
+    // Abre o WhatsApp em uma nova aba
+    window.open(wppUrl, "_blank");
+
+    // Depois de abrir o WhatsApp, pode-se perguntar ao usuário se ele já enviou a mensagem
+    const userConfirmed = confirm(
+      "Você já confirmou a participação no evento via WhatsApp?"
+    );
+
+    if (userConfirmed) {
+      // Agora abre o Google Calendar
+      const googleCalendarUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(
+        eventName
+      )}&dates=${eventDate.toISOString().replace(/[-:]/g, "").split(".")[0]}/${
+        eventEndDate.toISOString().replace(/[-:]/g, "").split(".")[0]
+      }&details=${encodeURIComponent(
+        eventDescription
+      )}&location=${encodeURIComponent(eventLocation)}&sf=true&output=xml`;
+
+      window.open(googleCalendarUrl, "_blank");
+    }
   };
 
   return (
@@ -126,21 +149,8 @@ END:VCALENDAR
             tecnologia de ponta, impulsionamos ideias promissoras em soluções
             GreenTech, transformando desafios em oportunidades.
           </p>
-          <div className="flex flex-row gap-2 w-full max-w-xs mx-auto mt-2">
-            <button
-              onClick={handleGenerateICS}
-              className="px-4 py-2 text-white font-bold bg-gradient-to-r from-green-400 to-green-600 rounded-lg shadow-lg hover:shadow-green-400 hover:scale-105 transition-transform text-sm"
-            >
-              Baixar Convite (.ics)
-            </button>
-            <button
-              onClick={handleGoogleCalendarLink}
-              className="px-4 py-2 text-white font-bold bg-gradient-to-r to-green-400 from-green-600 rounded-lg shadow-lg hover:shadow-green-400 hover:scale-105 transition-transform text-sm"
-            >
-              Google Calendar
-            </button>
-          </div>
-          <div className="p-2 flex flex-row gap-4 justify-center mt-8">
+
+          <div className="p-2 flex flex-row gap-4 justify-center mt-4">
             <div className="flex flex-col items-center">
               <span className={`font-thin ${ubuntu.className} text-sm`}>
                 TERÇA-FEIRA
@@ -160,6 +170,14 @@ END:VCALENDAR
           >
             <strong>Local: </strong> <span>{eventLocation}</span>
           </p>
+        </div>
+        <div className="flex flex-row gap-0 w-full max-w-xs mx-auto mt-8 m-auto justify-center">
+          <button
+            onClick={handleGoogleCalendarLink}
+            className="px-4 py-2 text-white font-bold bg-gradient-to-r to-green-400 from-green-600 rounded-lg shadow-lg hover:shadow-green-400 hover:scale-105 transition-transform text-sm w-full h-[3rem]"
+          >
+            Confirmar Presença
+          </button>
         </div>
       </div>
     </>
