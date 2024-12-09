@@ -372,9 +372,9 @@ function EventPage({ params }: PageProps) {
       "CONFIRMANDO PARTICIPAÇÃO NO EVENTO DE INAUGURAÇÃO DA CUBEVIS";
 
     if (convidado) {
-      wppMessage = `CONVIDADO : ${
+      wppMessage = `CONVIDADO: *${
         convidado.nome
-      }!\nPARTICIPAÇÃO NO EVENTO DE INAUGURAÇÃO DA CUBEVIS.\nEmpresa: ${
+      }*!\nPARTICIPAÇÃO NO EVENTO DE INAUGURAÇÃO DA CUBEVIS.\nEmpresa: ${
         convidado.empresa || "Não informada"
       }\n${
         convidado.email ? "E-mail: " + convidado.email : ""
