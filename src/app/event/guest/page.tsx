@@ -1,6 +1,17 @@
 "use client";
 import { useState } from "react";
+import { useEffect } from "react";
 
+import {
+  addDoc,
+  collection,
+  doc,
+  getDocs,
+  updateDoc,
+} from "firebase/firestore";
+import { db } from "../../../../firebase";
+import { CheckIcon, ClipboardIcon } from "@heroicons/react/20/solid";
+import { PaperAirplaneIcon } from "@heroicons/react/20/solid";
 // Lista de convidados (exemplo)
 const convidados = [
   {
@@ -325,57 +336,480 @@ const convidados = [
     contato: "+551194521-3801",
     email: null,
   },
+  {
+    id: 47,
+    nome: "RAFAEL BORNHAUSEN",
+    empresa: null,
+    contato: "48988063555",
+    email: null,
+  },
+  {
+    id: 48,
+    nome: "INGRID LUCKMANN",
+    empresa: null,
+    contato: "48991552881",
+    email: null,
+  },
+  {
+    id: 49,
+    nome: "GERALDO KARAM",
+    empresa: null,
+    contato: "47992272113",
+    email: null,
+  },
+  {
+    id: 50,
+    nome: "THIAGO KARAM",
+    empresa: null,
+    contato: "47992834060",
+    email: null,
+  },
+  {
+    id: 51,
+    nome: "CESAR BERTINI",
+    empresa: null,
+    contato: "11994541015",
+    email: null,
+  },
+  {
+    id: 52,
+    nome: "GUSTAVO LUCKMANN",
+    empresa: null,
+    contato: "11987590105",
+    email: null,
+  },
+  {
+    id: 53,
+    nome: "GABRIEL LUCKMANN",
+    empresa: null,
+    contato: "11987010804",
+    email: null,
+  },
+  {
+    id: 54,
+    nome: "DANIEL ZAUDE",
+    empresa: null,
+    contato: "11964771985",
+    email: null,
+  },
+  {
+    id: 55,
+    nome: "FABIO VASAMI",
+    empresa: null,
+    contato: "11991162491",
+    email: null,
+  },
+  {
+    id: 56,
+    nome: "SANDRO VASAMI",
+    empresa: null,
+    contato: "11991156617",
+    email: null,
+  },
+  {
+    id: 57,
+    nome: "HAROLDO RODRIGUES",
+    empresa: null,
+    contato: "85988989697",
+    email: null,
+  },
+  {
+    id: 58,
+    nome: "THIAGO ZAUDE",
+    empresa: null,
+    contato: "11999580632",
+    email: null,
+  },
+  {
+    id: 59,
+    nome: "PAULO LEITAO",
+    empresa: null,
+    contato: "11991900022",
+    email: null,
+  },
+  {
+    id: 60,
+    nome: "LEONARDO GONCALVES",
+    empresa: null,
+    contato: "19997778914",
+    email: null,
+  },
+  {
+    id: 61,
+    nome: "LEURY",
+    empresa: null,
+    contato: "21999897753",
+    email: null,
+  },
+  {
+    id: 62,
+    nome: "SERGIO SAFRA",
+    empresa: null,
+    contato: "11984291742",
+    email: null,
+  },
+  {
+    id: 63,
+    nome: "VAGNER SAFRA",
+    empresa: null,
+    contato: "11989947169",
+    email: null,
+  },
+  {
+    id: 64,
+    nome: "EMERSON GOMES",
+    empresa: null,
+    contato: "41998550143",
+    email: null,
+  },
+  {
+    id: 65,
+    nome: "ROGERIO OLIVEIRA",
+    empresa: null,
+    contato: "21999857712",
+    email: null,
+  },
+  {
+    id: 66,
+    nome: "KULIE SCHULTZ",
+    empresa: null,
+    contato: "15981645877",
+    email: null,
+  },
+  {
+    id: 67,
+    nome: "FELIPE RODRIGUES",
+    empresa: null,
+    contato: "15981678600",
+    email: null,
+  },
+  {
+    id: 68,
+    nome: "ANDERSON BERNAL",
+    empresa: null,
+    contato: "11986522018",
+    email: null,
+  },
+  {
+    id: 69,
+    nome: "PEDRO CONTI",
+    empresa: null,
+    contato: "11976884858",
+    email: null,
+  },
+  {
+    id: 70,
+    nome: "CAMILA LUCKMANN",
+    empresa: null,
+    contato: "11999147484",
+    email: null,
+  },
+  {
+    id: 71,
+    nome: "CARLA KLOCKNER",
+    empresa: null,
+    contato: "11991166605",
+    email: null,
+  },
+  {
+    id: 72,
+    nome: "RICARDO FARHAT",
+    empresa: null,
+    contato: "21995923574",
+    email: null,
+  },
+  {
+    id: 73,
+    nome: "OSEIEL ADAMI",
+    empresa: null,
+    contato: "49999910746",
+    email: null,
+  },
+  {
+    id: 74,
+    nome: "RINALDO APARECIDA",
+    empresa: null,
+    contato: "11947797253",
+    email: null,
+  },
+  {
+    id: 75,
+    nome: "DR FLAVIO RNV",
+    empresa: null,
+    contato: "11983355350",
+    email: null,
+  },
+  {
+    id: 76,
+    nome: "DR MARCIO RNV",
+    empresa: null,
+    contato: "11996466894",
+    email: null,
+  },
+  {
+    id: 77,
+    nome: "DR ANTONIO RNV",
+    empresa: null,
+    contato: "11983705653",
+    email: null,
+  },
+  {
+    id: 78,
+    nome: "LEANDRO APARECIDA",
+    empresa: null,
+    contato: "11985223339",
+    email: null,
+  },
+  {
+    id: 79,
+    nome: "SERGIO RIBAS IRANI",
+    empresa: null,
+    contato: "11996588311",
+    email: null,
+  },
 ];
-
 export default function GuestsPage() {
-  const [telefoneRemetente] = useState("5511986663003"); // Ajuste o número conforme necessário
+  const [statusEnviados, setStatusEnviados] = useState([]);
+  const [carregando, setCarregando] = useState(true);
+  const [filtro, setFiltro] = useState("todos");
+  const [busca, setBusca] = useState("");
 
-  const enviarLinkWpp = (convidado: any) => {
-    // Mensagem contendo o link com o ID do convidado
-    const linkEvento = `https://save.cubevis.com.br/event/${btoa(
-      convidado.id
-    )}`;
-    const wppMessage = `Olá, *${convidado.nome}*!
-Estou compartilhando o link do evento da CUBEVIS com o seu Link de confirmação:
-${linkEvento}
-
-Confirmar sua presença neste link!`;
-
-    const wppUrl = `https://api.whatsapp.com/send?phone=${
-      convidado.contato.replace(/\D/g, "") // Remove caracteres não numéricos do contato
-    }&text=${encodeURIComponent(wppMessage)}`;
-
-    window.open(wppUrl, "_blank");
+  const buscarStatusAtualizado = async () => {
+    try {
+      const enviadosSnapshot = await getDocs(collection(db, "enviados"));
+      const enviadosData = enviadosSnapshot.docs.map((doc) => ({
+        id: doc.data().id,
+        enviado: true,
+        confirmado: doc.data().confirmado || false,
+        dataEnvio: doc.data().dataEnvio || null,
+        dataConfirmacao: doc.data().dataConfirmacao || null,
+        docId: doc.id,
+      }));
+      setStatusEnviados(enviadosData);
+    } catch (error) {
+      console.error("Erro ao buscar status no Firebase:", error);
+    } finally {
+      setCarregando(false);
+    }
   };
 
+  useEffect(() => {
+    buscarStatusAtualizado();
+  }, []);
+
+  const copiarLink = (id) => {
+    const linkEvento = `https://save.cubevis.com.br/event/${btoa(id)}`;
+    navigator.clipboard
+      .writeText(linkEvento)
+      .then(() => alert("Link copiado para a área de transferência!"))
+      .catch((error) => console.error("Erro ao copiar o link:", error));
+  };
+
+  const enviarLinkWpp = async (convidado) => {
+    try {
+      const linkEvento = `https://save.cubevis.com.br/event/${btoa(
+        convidado.id
+      )}`;
+      const wppMessage = `Olá *${convidado.nome}*! Estamos felizes em convidá-lo para nosso evento!
+          
+    Confirme sua presença clicando no link abaixo:
+    ${linkEvento}
+    
+    Estamos ansiosos para vê-lo lá!`;
+
+      await addDoc(collection(db, "enviados"), {
+        id: convidado.id,
+        nome: convidado.nome,
+        enviado: true,
+        confirmado: false,
+        dataEnvio: new Date().toISOString(),
+      });
+
+      window.open(
+        `https://api.whatsapp.com/send?phone=${convidado.contato.replace(
+          /\D/g,
+          ""
+        )}&text=${encodeURIComponent(wppMessage)}`,
+        "_blank"
+      );
+
+      buscarStatusAtualizado();
+    } catch (error) {
+      console.error("Erro ao enviar convite ou salvar no Firebase:", error);
+    }
+  };
+
+  const marcarConfirmacao = async (docId) => {
+    try {
+      const docRef = doc(db, "enviados", docId);
+      await updateDoc(docRef, {
+        confirmado: true,
+        dataConfirmacao: new Date().toISOString(),
+      });
+
+      buscarStatusAtualizado();
+    } catch (error) {
+      console.error("Erro ao registrar confirmação:", error);
+    }
+  };
+
+  if (carregando) {
+    return <p>Carregando...</p>;
+  }
+
+  // Aplica os filtros e a busca por nome
+  const convidadosFiltrados = convidados.filter((convidado) => {
+    const status = statusEnviados.find((e) => e.id === convidado.id);
+
+    // Filtra por tipo
+    if (filtro === "nao-enviados" && status?.enviado) return false;
+    if (filtro === "enviados" && !status?.enviado) return false;
+    if (filtro === "confirmados" && !status?.confirmado) return false;
+    if (
+      filtro === "nao-confirmados" &&
+      (!status?.enviado || status?.confirmado)
+    )
+      return false;
+
+    // Filtra por nome
+    if (busca && !convidado.nome.toLowerCase().includes(busca.toLowerCase()))
+      return false;
+
+    return true;
+  });
+
   return (
-    <div className="container mx-auto p-4 font-sans bg-gray-800">
-      <h1 className="text-xl font-bold mb-4 text-white">
-        Lista de Convidados:{" "}
-      </h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-        {convidados.map((convidado) => (
-          <div
-            key={convidado.id}
-            className="bg-white rounded shadow p-4 flex flex-col"
-          >
-            <div className="mb-2">
-              <div className="text-lg font-semibold text-gray-800">
-                {convidado.nome}
-              </div>
-              <div className="text-sm text-gray-500">{convidado.empresa}</div>
-            </div>
-            <div className="text-sm text-gray-700 mb-4">
-              Contato: {convidado.contato}
-            </div>
-            <button
-              onClick={() => enviarLinkWpp(convidado)}
-              className="mt-auto bg-green-900 hover:bg-green-600 text-white text-sm font-semibold px-4 py-2 rounded-md transition-colors"
+    <div className="min-h-screen bg-black text-white p-6">
+      <h1 className="text-2xl font-bold mb-6">Lista de Convidados</h1>
+
+      {/* Filtros */}
+      <div className="flex gap-4 mb-6">
+        <button
+          onClick={() => setFiltro("todos")}
+          className={`px-4 py-2 rounded-md ${
+            filtro === "todos" ? "bg-gray-700" : "bg-gray-600"
+          } hover:bg-gray-500`}
+        >
+          Todos
+        </button>
+        <button
+          onClick={() => setFiltro("nao-enviados")}
+          className={`px-4 py-2 rounded-md ${
+            filtro === "nao-enviados" ? "bg-green-600" : "bg-gray-600"
+          } hover:bg-green-500`}
+        >
+          Não Enviados
+        </button>
+        <button
+          onClick={() => setFiltro("enviados")}
+          className={`px-4 py-2 rounded-md ${
+            filtro === "enviados" ? "bg-blue-600" : "bg-gray-600"
+          } hover:bg-blue-500`}
+        >
+          Enviados
+        </button>
+        <button
+          onClick={() => setFiltro("confirmados")}
+          className={`px-4 py-2 rounded-md ${
+            filtro === "confirmados" ? "bg-green-700" : "bg-gray-600"
+          } hover:bg-green-500`}
+        >
+          Confirmados
+        </button>
+        <button
+          onClick={() => setFiltro("nao-confirmados")}
+          className={`px-4 py-2 rounded-md ${
+            filtro === "nao-confirmados" ? "bg-red-600" : "bg-gray-600"
+          } hover:bg-red-500`}
+        >
+          Não Confirmados
+        </button>
+      </div>
+
+      {/* Campo de Busca */}
+      <div className="mb-6">
+        <input
+          type="text"
+          placeholder="Filtrar por nome"
+          value={busca}
+          onChange={(e) => setBusca(e.target.value)}
+          className="w-full px-4 py-2 rounded-md bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-green-500"
+        />
+      </div>
+
+      {/* Lista de convidados */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        {convidadosFiltrados.map((convidado) => {
+          const status = statusEnviados.find((e) => e.id === convidado.id);
+
+          const cardBorderClass = status?.confirmado
+            ? status?.enviado
+              ? "border-green-700"
+              : "border-white"
+            : "border-gray-800";
+
+          return (
+            <div
+              key={convidado.id}
+              className={`bg-gray-800 rounded-lg shadow-lg hover:shadow-xl transition-shadow flex flex-col p-4 border-2 ${cardBorderClass}`}
             >
-              Enviar no WhatsApp
-            </button>
-          </div>
-        ))}
+              <div className="flex flex-col items-center mb-4">
+                <div className="text-lg font-semibold text-gray-100">
+                  {convidado.nome}
+                </div>
+                <div className="text-sm text-gray-400">{convidado.empresa}</div>
+              </div>
+              <div className="text-sm text-gray-300 mb-6">
+                Contato: {convidado.contato || "Não informado"}
+              </div>
+              <div className="mt-auto flex justify-between">
+                <div className="flex flex-col items-start">
+                  {status?.enviado && (
+                    <div className="text-white font-semibold text-center mb-2">
+                      Enviado em:{" "}
+                      {status.dataEnvio
+                        ? new Date(status.dataEnvio).toLocaleString()
+                        : "N/A"}
+                    </div>
+                  )}
+                  {status?.confirmado && (
+                    <div className="text-green-600 text-center mb-2 font-semibold">
+                      Confirmado em:{" "}
+                      {status.dataConfirmacao
+                        ? new Date(status.dataConfirmacao).toLocaleString()
+                        : "N/A"}
+                    </div>
+                  )}
+                </div>
+                <div className="flex flex-col items-center justify-center gap-4">
+                  <button
+                    onClick={() => copiarLink(convidado.id)}
+                    className="bg-gray-700 hover:bg-gray-600 text-gray-200 p-3 rounded-md transition-colors shadow-md hover:shadow-lg"
+                    title="Copiar Link"
+                  >
+                    <ClipboardIcon className="h-3 w-3" />
+                  </button>
+                  <button
+                    onClick={() => enviarLinkWpp(convidado)}
+                    className="bg-green-600 hover:bg-green-500 text-white p-3 rounded-md transition-colors shadow-md hover:shadow-lg"
+                    title="Reenviar Convite"
+                  >
+                    <PaperAirplaneIcon className="h-3 w-3" />
+                  </button>
+                  {status?.enviado && !status?.confirmado && (
+                    <button
+                      onClick={() => marcarConfirmacao(status.docId)}
+                      className="bg-green-600 hover:bg-green-500 text-white p-3 rounded-md transition-colors shadow-md hover:shadow-lg"
+                      title="Marcar como Confirmado"
+                    >
+                      <CheckIcon className="h-3 w-3" />
+                    </button>
+                  )}
+                </div>
+              </div>
+            </div>
+          );
+        })}
       </div>
     </div>
   );

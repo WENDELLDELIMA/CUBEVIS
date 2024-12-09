@@ -1,5 +1,13 @@
 "use client";
 import { saveAs } from "file-saver";
+import {
+  collection,
+  addDoc,
+  getDocs,
+  doc,
+  updateDoc,
+} from "firebase/firestore";
+import { db } from "./../../../../firebase";
 import Image from "next/image";
 import { Ubuntu } from "next/font/google";
 import dynamic from "next/dynamic";
@@ -339,6 +347,237 @@ const convidados = [
     contato: "+551194521-3801",
     email: null,
   },
+  {
+    id: 47,
+    nome: "RAFAEL BORNHAUSEN",
+    empresa: null,
+    contato: "48988063555",
+    email: null,
+  },
+  {
+    id: 48,
+    nome: "INGRID LUCKMANN",
+    empresa: null,
+    contato: "48991552881",
+    email: null,
+  },
+  {
+    id: 49,
+    nome: "GERALDO KARAM",
+    empresa: null,
+    contato: "47992272113",
+    email: null,
+  },
+  {
+    id: 50,
+    nome: "THIAGO KARAM",
+    empresa: null,
+    contato: "47992834060",
+    email: null,
+  },
+  {
+    id: 51,
+    nome: "CESAR BERTINI",
+    empresa: null,
+    contato: "11994541015",
+    email: null,
+  },
+  {
+    id: 52,
+    nome: "GUSTAVO LUCKMANN",
+    empresa: null,
+    contato: "11987590105",
+    email: null,
+  },
+  {
+    id: 53,
+    nome: "GABRIEL LUCKMANN",
+    empresa: null,
+    contato: "11987010804",
+    email: null,
+  },
+  {
+    id: 54,
+    nome: "DANIEL ZAUDE",
+    empresa: null,
+    contato: "11964771985",
+    email: null,
+  },
+  {
+    id: 55,
+    nome: "FABIO VASAMI",
+    empresa: null,
+    contato: "11991162491",
+    email: null,
+  },
+  {
+    id: 56,
+    nome: "SANDRO VASAMI",
+    empresa: null,
+    contato: "11991156617",
+    email: null,
+  },
+  {
+    id: 57,
+    nome: "HAROLDO RODRIGUES",
+    empresa: null,
+    contato: "85988989697",
+    email: null,
+  },
+  {
+    id: 58,
+    nome: "THIAGO ZAUDE",
+    empresa: null,
+    contato: "11999580632",
+    email: null,
+  },
+  {
+    id: 59,
+    nome: "PAULO LEITAO",
+    empresa: null,
+    contato: "11991900022",
+    email: null,
+  },
+  {
+    id: 60,
+    nome: "LEONARDO GONCALVES",
+    empresa: null,
+    contato: "19997778914",
+    email: null,
+  },
+  {
+    id: 61,
+    nome: "LEURY",
+    empresa: null,
+    contato: "21999897753",
+    email: null,
+  },
+  {
+    id: 62,
+    nome: "SERGIO SAFRA",
+    empresa: null,
+    contato: "11984291742",
+    email: null,
+  },
+  {
+    id: 63,
+    nome: "VAGNER SAFRA",
+    empresa: null,
+    contato: "11989947169",
+    email: null,
+  },
+  {
+    id: 64,
+    nome: "EMERSON GOMES",
+    empresa: null,
+    contato: "41998550143",
+    email: null,
+  },
+  {
+    id: 65,
+    nome: "ROGERIO OLIVEIRA",
+    empresa: null,
+    contato: "21999857712",
+    email: null,
+  },
+  {
+    id: 66,
+    nome: "KULIE SCHULTZ",
+    empresa: null,
+    contato: "15981645877",
+    email: null,
+  },
+  {
+    id: 67,
+    nome: "FELIPE RODRIGUES",
+    empresa: null,
+    contato: "15981678600",
+    email: null,
+  },
+  {
+    id: 68,
+    nome: "ANDERSON BERNAL",
+    empresa: null,
+    contato: "11986522018",
+    email: null,
+  },
+  {
+    id: 69,
+    nome: "PEDRO CONTI",
+    empresa: null,
+    contato: "11976884858",
+    email: null,
+  },
+  {
+    id: 70,
+    nome: "CAMILA LUCKMANN",
+    empresa: null,
+    contato: "11999147484",
+    email: null,
+  },
+  {
+    id: 71,
+    nome: "CARLA KLOCKNER",
+    empresa: null,
+    contato: "11991166605",
+    email: null,
+  },
+  {
+    id: 72,
+    nome: "RICARDO FARHAT",
+    empresa: null,
+    contato: "21995923574",
+    email: null,
+  },
+  {
+    id: 73,
+    nome: "OSEIEL ADAMI",
+    empresa: null,
+    contato: "49999910746",
+    email: null,
+  },
+  {
+    id: 74,
+    nome: "RINALDO APARECIDA",
+    empresa: null,
+    contato: "11947797253",
+    email: null,
+  },
+  {
+    id: 75,
+    nome: "DR FLAVIO RNV",
+    empresa: null,
+    contato: "11983355350",
+    email: null,
+  },
+  {
+    id: 76,
+    nome: "DR MARCIO RNV",
+    empresa: null,
+    contato: "11996466894",
+    email: null,
+  },
+  {
+    id: 77,
+    nome: "DR ANTONIO RNV",
+    empresa: null,
+    contato: "11983705653",
+    email: null,
+  },
+  {
+    id: 78,
+    nome: "LEANDRO APARECIDA",
+    empresa: null,
+    contato: "11985223339",
+    email: null,
+  },
+  {
+    id: 79,
+    nome: "SERGIO RIBAS IRANI",
+    empresa: null,
+    contato: "11996588311",
+    email: null,
+  },
 ];
 
 function EventPage({ params }: PageProps) {
@@ -373,8 +612,8 @@ function EventPage({ params }: PageProps) {
   }, []);
 
   // Função para gerar o link do Google Calendar personalizada com o convidado obtido pelo ID da URL
-  const handleGoogleCalendarLink = () => {
-    // Converte o id para número, já que router.query retorna string
+  const handleGoogleCalendarLink = async () => {
+    // Converte o id para número
     const convidadoId = Number(id2);
     const convidado = convidados.find((c) => c.id === convidadoId);
 
@@ -389,6 +628,39 @@ function EventPage({ params }: PageProps) {
       }\n${
         convidado.email ? "E-mail: " + convidado.email : ""
       }\nMensagem de Confirmação`;
+
+      try {
+        // Verifica se o id já está na coleção "enviados"
+        const querySnapshot = await getDocs(collection(db, "enviados"));
+        const enviadoDoc = querySnapshot.docs.find(
+          (doc) => doc.data().id === convidadoId
+        );
+
+        if (enviadoDoc) {
+          // Obtém a referência do documento para atualização
+          const docRef = doc(db, "enviados", enviadoDoc.id);
+          await updateDoc(docRef, {
+            confirmado: true,
+            dataConfirmacao: new Date().toISOString(),
+          });
+          console.log(`Convidado ${convidado.nome} marcado como confirmado.`);
+        } else {
+          // Adiciona o convidado à coleção "enviados" com confirmação
+          await addDoc(collection(db, "enviados"), {
+            id: convidadoId, // ID do convidado
+            nome: convidado.nome, // Nome do convidado
+            dataEnvio: new Date().toISOString(), // Data e hora do envio
+            confirmado: true, // Marca como confirmado
+            dataConfirmacao: new Date().toISOString(), // Data e hora da confirmação
+          });
+
+          console.log(
+            `Convite enviado e registrado como confirmado para ${convidado.nome}.`
+          );
+        }
+      } catch (error) {
+        console.error("Erro ao verificar ou salvar no Firebase:", error);
+      }
     }
 
     const wppNumber = "5511986663003";
@@ -396,24 +668,7 @@ function EventPage({ params }: PageProps) {
       wppMessage
     )}`;
 
-    // Abre o WhatsApp em uma nova aba
     window.open(wppUrl, "_blank");
-
-    const userConfirmed = confirm(
-      "Você já confirmou a participação no evento via WhatsApp?"
-    );
-
-    if (userConfirmed) {
-      const googleCalendarUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(
-        eventName
-      )}&dates=${eventDate.toISOString().replace(/[-:]/g, "").split(".")[0]}/${
-        eventEndDate.toISOString().replace(/[-:]/g, "").split(".")[0]
-      }&details=${encodeURIComponent(
-        eventDescription
-      )}&location=${encodeURIComponent(eventLocation)}&sf=true&output=xml`;
-
-      window.open(googleCalendarUrl, "_blank");
-    }
   };
 
   return (
