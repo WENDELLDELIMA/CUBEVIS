@@ -683,10 +683,10 @@ export default function GuestsPage() {
       <h1 className="text-2xl font-bold mb-6">Lista de Convidados</h1>
 
       {/* Filtros */}
-      <div className="flex gap-4 mb-6">
+      <div className="flex gap-1 mb-4  text-[.7rem] overflow-auto no-scrollbar">
         <button
           onClick={() => setFiltro("todos")}
-          className={`px-4 py-2 rounded-md ${
+          className={`px-2 rounded-md p-3 ${
             filtro === "todos" ? "bg-gray-700" : "bg-gray-600"
           } hover:bg-gray-500`}
         >
@@ -694,7 +694,7 @@ export default function GuestsPage() {
         </button>
         <button
           onClick={() => setFiltro("nao-enviados")}
-          className={`px-4 py-2 rounded-md ${
+          className={`px-2  rounded-md ${
             filtro === "nao-enviados" ? "bg-green-600" : "bg-gray-600"
           } hover:bg-green-500`}
         >
@@ -702,7 +702,7 @@ export default function GuestsPage() {
         </button>
         <button
           onClick={() => setFiltro("enviados")}
-          className={`px-4 py-2 rounded-md ${
+          className={`px-2 rounded-md p-3 ${
             filtro === "enviados" ? "bg-blue-600" : "bg-gray-600"
           } hover:bg-blue-500`}
         >
@@ -710,7 +710,7 @@ export default function GuestsPage() {
         </button>
         <button
           onClick={() => setFiltro("confirmados")}
-          className={`px-4 py-2 rounded-md ${
+          className={`px-2 rounded-md p-3 ${
             filtro === "confirmados" ? "bg-green-700" : "bg-gray-600"
           } hover:bg-green-500`}
         >
@@ -718,7 +718,7 @@ export default function GuestsPage() {
         </button>
         <button
           onClick={() => setFiltro("nao-confirmados")}
-          className={`px-4 py-2 rounded-md ${
+          className={`px-2 rounded-md p-3 ${
             filtro === "nao-confirmados" ? "bg-red-600" : "bg-gray-600"
           } hover:bg-red-500`}
         >
