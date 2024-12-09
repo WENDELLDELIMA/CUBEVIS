@@ -353,7 +353,17 @@ function EventPage({ params }: PageProps) {
 
   // Hook do Next.js para acessar parâmetros da URL
   const router = useRouter();
-  const { id } = params; // id vem da URL, por exemplo /event/1
+  const { id } = params;
+
+  // Decodifica a URI primeiro (para tratar caracteres %3D, %2B, etc.)
+  let decodedUri = decodeURIComponent(id);
+
+  // Substitui caracteres URL-safe para o formato Base64 tradicional
+  let base64 = decodedUri.replace(/-/g, "+").replace(/_/g, "/");
+
+  // Exibe no console o Base64 decodificado
+
+  const id2 = atob(base64);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -365,7 +375,7 @@ function EventPage({ params }: PageProps) {
   // Função para gerar o link do Google Calendar personalizada com o convidado obtido pelo ID da URL
   const handleGoogleCalendarLink = () => {
     // Converte o id para número, já que router.query retorna string
-    const convidadoId = Number(id);
+    const convidadoId = Number(id2);
     const convidado = convidados.find((c) => c.id === convidadoId);
 
     let wppMessage =

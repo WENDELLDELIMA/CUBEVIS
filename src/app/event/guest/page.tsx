@@ -332,7 +332,9 @@ export default function GuestsPage() {
 
   const enviarLinkWpp = (convidado: any) => {
     // Mensagem contendo o link com o ID do convidado
-    const linkEvento = `https://save.cubevis.com.br/event/${convidado.id}`;
+    const linkEvento = `https://save.cubevis.com.br/event/${btoa(
+      convidado.id
+    )}`;
     const wppMessage = `Olá, *${convidado.nome}*!
 Estou compartilhando o link do evento da CUBEVIS com o seu Link de confirmação:
 ${linkEvento}
