@@ -664,12 +664,7 @@ function EventPage({ params }: PageProps) {
     }
 
     const wppNumber = "5511986663003";
-    const wppUrl = `https://api.whatsapp.com/send?phone=${wppNumber}&text=${encodeURIComponent(
-      wppMessage
-    )}`;
-
-    window.open(wppUrl, "_blank");
-  };
+    
 
   return (
     <>
