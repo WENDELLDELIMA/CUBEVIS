@@ -625,7 +625,7 @@ export default function GuestsPage() {
         dataEnvio: new Date().toISOString(),
       });
 
-      window.location.href = `https://api.whatsapp.com/send?phone=${convidado.contato.replace(
+      window.location.href = `whatsapp://send?phone=${convidado.contato.replace(
         /\D/g,
         ""
       )}&text=${encodeURIComponent(wppMessage)}`;
