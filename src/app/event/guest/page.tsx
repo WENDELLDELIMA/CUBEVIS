@@ -607,16 +607,26 @@ export default function GuestsPage() {
 
   const enviarLinkWpp = async (convidado: any) => {
     try {
-      const linkEvento = `https://save.cubevis.com.br/event/${btoa(
-        convidado.id
+      const linkEvento = `https://save.cubevis.com.br/event/${encodeURIComponent(
+        btoa(convidado.id)
       )}`;
-      const wppMessage = `Olá *${convidado.nome}*! Estamos felizes em convidá-lo para nosso evento!
-          
-    Confirme sua presença clicando no link abaixo:
-    ${linkEvento}
-    
-    Estamos ansiosos para vê-lo lá!`;
 
+      const wppMessage = `Olá *${convidado.nome}*! Estamos felizes em convidá-lo para nosso evento!
+            
+  Confirme sua presença clicando no link abaixo:
+  ${linkEvento}
+  
+  Estamos ansiosos para vê-lo lá!`;
+
+      const mensagemCodificada = encodeURIComponent(wppMessage);
+
+      const telefone = convidado.contato.replace(/\D/g, "");
+      if (telefone.length < 10 || telefone.length > 15) {
+        console.error("Número de telefone inválido:", telefone);
+        return;
+      }
+
+      // Salvar no Firebase
       await addDoc(collection(db, "enviados"), {
         id: convidado.id,
         nome: convidado.nome,
@@ -625,11 +635,9 @@ export default function GuestsPage() {
         dataEnvio: new Date().toISOString(),
       });
 
+      // Abrir o WhatsApp
       window.open(
-        `whatsapp://send?phone=${convidado.contato.replace(
-          /\D/g,
-          ""
-        )}&text=${encodeURIComponent(wppMessage)}`,
+        `whatsapp://send?phone=${telefone}&text=${mensagemCodificada}`,
         "_blank"
       );
 
