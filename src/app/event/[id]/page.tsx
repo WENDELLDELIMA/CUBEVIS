@@ -664,7 +664,24 @@ function EventPage({ params }: PageProps) {
     }
 
     const wppNumber = "5511986663003";
-    
+
+    // Gera a URL para abrir diretamente no WhatsApp (se disponível)
+    const wppAppUrl = `whatsapp://send?phone=${wppNumber}&text=${encodeURIComponent(
+      wppMessage
+    )}`;
+
+    // Fallback para o link web do WhatsApp (caso o app não esteja disponível)
+    const wppWebUrl = `https://api.whatsapp.com/send?phone=${wppNumber}&text=${encodeURIComponent(
+      wppMessage
+    )}`;
+
+    // Tenta abrir diretamente no aplicativo, mas cai para o navegador se não funcionar
+    try {
+      location.href = wppAppUrl; // Tenta abrir diretamente no app do WhatsApp
+    } catch {
+      location.href = wppWebUrl; // Redireciona para o link web como fallback
+    }
+  };
 
   return (
     <>
