@@ -153,7 +153,7 @@ export default function GuestsPage() {
   }
 
   // Aplica os filtros e a busca por nome
-  const convidadosFiltrados = convidados.filter((convidado) => {
+  const convidadosFiltrados = convidados.filter((convidado:any) => {
     const status = statusEnviados.find((e: any) => e.id === convidado.id);
 
     // Filtra por tipo
@@ -243,7 +243,7 @@ export default function GuestsPage() {
 
       {/* Lista de convidados */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {convidadosFiltrados.map((convidado) => {
+        {convidadosFiltrados.map((convidado:any) => {
           const status = statusEnviados.find((e: any) => e.id === convidado.id);
 
           const cardBorderClass = status?.confirmado

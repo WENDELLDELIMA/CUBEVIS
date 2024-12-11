@@ -81,7 +81,7 @@ function EventPage({ params }: PageProps) {
   const handleGoogleCalendarLink = async () => {
     // Converte o id para número
     const convidadoId = Number(id2);
-    const convidado = convidados.find((c) => c.id === convidadoId);
+    const convidado = convidados.find((c:any) => c.id === convidadoId);
 
     let wppMessage =
       "CONFIRMANDO PARTICIPAÇÃO NO EVENTO DE INAUGURAÇÃO DA CUBEVIS";
