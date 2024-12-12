@@ -24,8 +24,6 @@ const ubuntu = Ubuntu({
   weight: ["300", "400", "700"],
 });
 
-
-
 function EventPage({ params }: PageProps) {
   const [convidados, setConvidados]: any = useState([]);
   const [loading, setLoading] = useState(true);
@@ -71,17 +69,15 @@ function EventPage({ params }: PageProps) {
       } catch (error) {
         console.error("Erro ao buscar dados do Firestore:", error);
       } finally {
-   
       }
     };
-    fetchConvidados()
-    
+    fetchConvidados();
   }, []);
   // Função para gerar o link do Google Calendar personalizada com o convidado obtido pelo ID da URL
   const handleGoogleCalendarLink = async () => {
     // Converte o id para número
     const convidadoId = Number(id2);
-    const convidado = convidados.find((c:any) => c.id === convidadoId);
+    const convidado = convidados.find((c: any) => c.id === convidadoId);
 
     let wppMessage =
       "CONFIRMANDO PARTICIPAÇÃO NO EVENTO DE INAUGURAÇÃO DA CUBEVIS";
@@ -140,12 +136,15 @@ function EventPage({ params }: PageProps) {
     const wppWebUrl = `https://api.whatsapp.com/send?phone=${wppNumber}&text=${encodeURIComponent(
       wppMessage
     )}`;
+    window.open(wppWebUrl, "_blank");
 
     // Tenta abrir diretamente no aplicativo, mas cai para o navegador se não funcionar
     try {
       location.href = wppAppUrl; // Tenta abrir diretamente no app do WhatsApp
     } catch {
-      location.href = wppWebUrl; // Redireciona para o link web como fallback
+      window.open(wppWebUrl, "_blank"); // Certifique-se de que wppWebUrl é uma string
+
+      // Redireciona para o link web como fallback
     }
   };
 
